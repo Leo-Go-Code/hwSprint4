@@ -26,7 +26,7 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 		return 0, "", 0, fmt.Errorf("conversion error: %w", err)
 	}
 	if num < 1 {
-		return 0, "", 0, errors.New("Error converting string to number")
+		return 0, "", 0, errors.New("The number of steps must be greater than 0")
 	}
 
 	duration, err := time.ParseDuration(pieces[2])
@@ -34,7 +34,7 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 		return 0, "", 0, fmt.Errorf("conversion error: %w", err)
 	}
 	if duration <= 0 {
-		return 0, "", 0, errors.New("Error converting string to number")
+		return 0, "", 0, errors.New("The duration must be greater than 0")
 	}
 
 	return num, pieces[1], duration, nil
