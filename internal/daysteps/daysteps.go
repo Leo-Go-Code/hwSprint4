@@ -18,16 +18,17 @@ func parsePackage(data string) (int, time.Duration, error) {
 		return 0, 0, errors.New("Incorrect data received")
 	}
 
-	steps, err1 := strconv.Atoi(pieces[0])
-	if err1 != nil {
-		return 0, 0, errors.New("Error converting string to number")
-	} else if steps < 1 {
+	steps, err := strconv.Atoi(pieces[0])
+	if err != nil {
+		return 0, 0, fmt.Errorf("conversion error: %w", err)
+	}
+	if steps < 1 {
 		return 0, 0, errors.New("The number of steps must be greater than 0")
 	}
 
-	duration, err2 := time.ParseDuration(pieces[1])
-	if err2 != nil {
-		return 0, 0, errors.New("Error converting string to time.Duration")
+	duration, err := time.ParseDuration(pieces[1])
+	if err != nil {
+		return 0, 0, fmt.Errorf("conversion error: %w", err)
 	}
 
 	return steps, duration, nil
@@ -43,7 +44,8 @@ func DayActionInfo(data string, weight, height float64) string {
 	steps, duration, errPP := parsePackage(data)
 	if errPP != nil {
 		return ""
-	} else if steps < 1 {
+	}
+	if steps < 1 {
 		return ""
 	}
 

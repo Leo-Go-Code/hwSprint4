@@ -21,14 +21,20 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 		return 0, "", 0, errors.New("Incorrect data received")
 	}
 
-	num, err1 := strconv.Atoi(pieces[0])
-	if err1 != nil {
+	num, err := strconv.Atoi(pieces[0])
+	if err != nil {
+		return 0, "", 0, fmt.Errorf("conversion error: %w", err)
+	}
+	if num < 1 {
 		return 0, "", 0, errors.New("Error converting string to number")
 	}
 
-	duration, err2 := time.ParseDuration(pieces[2])
-	if err2 != nil {
-		return 0, "", 0, errors.New("Error converting string to time.Duration")
+	duration, err := time.ParseDuration(pieces[2])
+	if err != nil {
+		return 0, "", 0, fmt.Errorf("conversion error: %w", err)
+	}
+	if duration <= 0 {
+		return 0, "", 0, errors.New("Error converting string to number")
 	}
 
 	return num, pieces[1], duration, nil
